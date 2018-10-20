@@ -1,0 +1,147 @@
+Part B
+
+For each TCP flow: 
+(1) Print the first ten congestion window sizes (or till the end of the flow, if there are less than five congestion windows). You need to decide whether the congestion window should be estimated at the sender or the receiver and explain your choice. Mention the size of the initial congestion window. You need to estimate the congestion window size empirically since the information is not available in the packet. Comment on how the congestion window size grows. Remember that your estimation may not be perfect, but that is ok. Congestion window sizes are typically estimated per RTT. 
+
+I am calculating congestion window per RTT, As congestion window is RTT clocked. I am checking how many packets are sent from sender to receiver in an RTT which is approximately 73 milli second for all 3 connections.
+Connection 1 
+Congestion Window = 18980
+Congestion Window = 29200 
+Congestion Window = 59860 
+Congestion Window = 70080 
+Congestion Window = 102200 
+Congestion Window = 154760 
+Congestion Window = 210240 
+Congestion Window = 292000 
+Congestion Window = 410260 
+Congestion Window = 614660 
+Congestion Window = 316820 
+
+
+The initial congestion window size is 18980. Seems that the first ten size grows multiplicatively but not exactly by a factor 2. The first 10 growth rate = [ 1.53, 2.05, 1.17, 1.45, 1.51, 1.35, 1.38, 1.40, 1.49, 0.51], we observed a packet loss during the 10th congestion window hence 11th congestion window size is approximately halfed 
+
+
+Connection 2
+
+Congestion Window = 16060 
+Congestion Window = 42340 
+Congestion Window = 64240 
+Congestion Window = 71540 
+Congestion Window = 106580 
+Congestion Window = 143080 
+Congestion Window = 223380 
+Congestion Window = 292000 
+Congestion Window = 439460 
+Congestion Window = 610280 
+Congestion Window = 297840 
+
+The initial congestion window size is 16060. Seems that the first ten size grows multiplicatively but not exactly by a factor 2. The first 10 growth rate = [ 2.63, 1.51, 1.11, 1.48, 1.51, 1.34, 1.55, 1.30, 1.39, 0.48], we observed a packet loss during the 10th congestion window hence 11th congestion window size is approximately halfed 
+
+
+Connection 3
+
+Congestion Window = 18980 
+Congestion Window = 37960 
+Congestion Window = 54020 
+Congestion Window = 74460 
+Congestion Window = 110960 
+Congestion Window = 124100 
+Congestion Window = 211700 
+Congestion Window = 343100 
+Congestion Window = 86140 
+
+
+The initial congestion window size is 18980. Seems that the size grows multiplicatively but not exactly by a factor 2. The first 10 growth rate = [ 2.00, 1.42, 1.37, 1.48, 1.12, 1.70, 1.62, 0.25] , we observed a packet loss during the 8th congestion window hence 9th congestion window size is reduced 
+
+
+
+
+(2) Compute the number of times a retransmission occurred due to triple duplicate ack and the number of time a retransmission occurred due to timeout (as before, determine if you need to do it at the sender or the receiver). 
+
+We use two dictionaries to calculate all the retransmissions which occurred due to triple duplicate acknowledgment, one is used to calculate the no. of packets with same sequence number and the other is used to calculate the no. of packets with the same ack no. For each seq number in the seq dictionary we find if it is also present in acknowledge Dictionary and if it is received more than 2 times.
+Total loss is calculated in Part A.
+
+
+Connection 1
+Triple Acknowledgement Loss = 2 
+
+Connection 2
+Triple Acknowledgement Loss = 36
+
+Connection 3
+Triple Acknowledgement Loss = 0
+
+
+
+Connection 1
+Timeout Loss = 2
+
+Connection 2
+Timeout Loss = 59
+
+Connection 3
+Timeout Loss = 1
+
+
+
+
+
+
+
+Output - $ python analysis_pcap_tcp_B.py
+
+Tcp connection count = 3 
+
+
+Connection 1
+--------------------------------------------------------------
+Triple Acknowledgement Loss = 2 
+Timeout Loss = 2
+Congestion Window = 18980 
+Congestion Window = 29200 
+Congestion Window = 59860 
+Congestion Window = 70080 
+Congestion Window = 102200 
+Congestion Window = 154760 
+Congestion Window = 210240 
+Congestion Window = 292000 
+Congestion Window = 410260 
+Congestion Window = 614660 
+Congestion Window = 316820 
+
+
+
+Connection 2
+--------------------------------------------------------------
+Triple Acknowledgement Loss = 36 
+Timeout Loss = 59
+Congestion Window = 16060 
+Congestion Window = 42340 
+Congestion Window = 64240 
+Congestion Window = 71540 
+Congestion Window = 106580 
+Congestion Window = 143080 
+Congestion Window = 223380 
+Congestion Window = 292000 
+Congestion Window = 439460 
+Congestion Window = 610280 
+Congestion Window = 297840 
+
+
+
+Connection 3
+--------------------------------------------------------------
+Triple Acknowledgement Loss = 0 
+Timeout Loss = 1
+Congestion Window = 18980 
+Congestion Window = 37960 
+Congestion Window = 54020 
+Congestion Window = 74460 
+Congestion Window = 110960 
+Congestion Window = 124100 
+Congestion Window = 211700 
+Congestion Window = 343100 
+Congestion Window = 86140 
+
+
+Praveens-MacBook-Pro:Homework praveenkumar$ 
