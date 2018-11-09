@@ -4,3 +4,7 @@ Analyzed a Wireshark/TCPdump trace to characterize the TCP flows in the trace an
 Part A
 
 Run the program - python analysis_pcap_tcp_A.py
+
+Part B
+
+Run the program - python analysis_pcap_tcp_B.py
